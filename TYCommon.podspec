@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'TYCommon'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of TYCommon.'
+  s.summary          = '自用的一个开发库，包含常见的使用方法'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -21,14 +21,14 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/785072254@qq.com/TYCommon'
+  s.homepage         = 'https://github.com/Style-Tender/TYCommon'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { '785072254@qq.com' => '785072254@qq.com' }
-  s.source           = { :git => 'https://github.com/785072254@qq.com/TYCommon.git', :tag => s.version.to_s }
+  s.author           = { 'Style-Tender' => '785072254@qq.com' }
+  s.source           = { :git => 'https://github.com/Style-Tender/TYCommon.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '11.0'
 
   s.source_files = 'TYCommon/Classes/**/*'
   
@@ -38,5 +38,5 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+   s.dependency 'AFNetworking'
 end
