@@ -16,9 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @property (nonatomic,strong) NSDictionary *params;
+@property (nonatomic,strong) NSDictionary *headers;
 @property (nonatomic,copy) NSString *name;
 @property (nonatomic,copy) NSString *fileName;
 @property (nonatomic,copy) NSString *mimeType;
+
 
 @property (nonatomic,strong) NSData *fileData;
 

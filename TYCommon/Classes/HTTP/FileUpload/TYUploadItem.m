@@ -19,6 +19,7 @@
 
 -(void)initConfig{
     self.params = @{};
+    self.headers = @{};
     self.name = @"";
     self.fileName = @"";
     self.mimeType = @"";

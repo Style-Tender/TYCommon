@@ -28,10 +28,11 @@
     _requests = [NSMutableArray array];
 }
 
+///添加上传元素
 -(void)ty_addItem:(TYUploadItem *)item{
     [_requests addObject:item];
 }
-
+///开始上传任务
 -(void)ty_startWithUrl:(NSString *)url progress:(void(^)(int index,NSProgress *uploadProgress))progress success:(void(^)(int index,id responseObject))success fail:(void(^)(int index,NSError *error))fail {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -45,6 +46,11 @@
         
         for (int i = 0; i < self.requests.count; i++) {
             TYUploadItem *item = self.requests[i];
+            
+            [manager.requestSerializer clearAuthorizationHeader];
+            for (NSString *key in item.headers.allKeys) {
+                [manager.requestSerializer setValue:item.headers[key] forHTTPHeaderField:key];
+            }
             
             [manager POST:url parameters:item.params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
                 [formData appendPartWithFileData:item.fileData name:item.name fileName:item.fileName mimeType:item.mimeType];
