@@ -8,81 +8,105 @@
 
 #import "UITextView+TYPlaceHolder.h"
 #import <objc/runtime.h>
-#import "UIView+TYView.h"
 
-static const char *kPlaceholderKey = "kPlaceholderKey";
-static const char *kPlaceholderLabelKey = "kPlaceholderLabelKey";
+/// 交换两个方法
+static inline void exChangeSelector(Class class, SEL originalSelector, SEL swizzledSelector) {
+    Method originalMethod = class_getInstanceMethod(class, originalSelector);
+    Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+    if (class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))) {
+        class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+    } else {
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
+}
 
-@interface UITextView (PlaceholderLabel)<UITextViewDelegate>
+static char kPlaceholderKey;
 
-@property (nonatomic, strong) UILabel *placeholderLabel;
-
+@interface UITextView ()
+@property (nonatomic, readonly) UILabel *ex_placeholderLabel;
 @end
 
 
 @implementation UITextView (TYPlaceHolder)
 
-+ (void)load {
-    
-    // 获取类方法 class_getClassMethod
-    // 获取对象方法 class_getInstanceMethod
-    
-    Method setFontMethod = class_getInstanceMethod(self, @selector(setFont:));
-    Method ty_setFontMethod = class_getInstanceMethod(self, @selector(ty_setFont:));
-    
-    // 交换方法的实现
-    method_exchangeImplementations(setFontMethod, ty_setFontMethod);
++(void)load{
+    [super load];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        exChangeSelector(self.class, @selector(layoutSubviews), @selector(swizzled_layoutSubviews));
+        exChangeSelector(self.class, @selector(setText:), @selector(swizzled_setText:));
+    });
 }
-
-- (void)ty_setFont:(UIFont *)font{
-    //调用原方法 setFont:
-    [self ty_setFont:font];
-    //设置占位字符串的font
-    if (self.placeholderLabel != nil) {
-        self.placeholderLabel.font = font;
+#pragma mark - swizzled
+- (void)swizzled_layoutSubviews {
+    if (self.ty_placeholder) {
+        UIEdgeInsets textContainerInset = self.textContainerInset;
+        CGFloat lineFragmentPadding = self.textContainer.lineFragmentPadding;
+        CGFloat x = lineFragmentPadding + textContainerInset.left + self.layer.borderWidth;
+        CGFloat y = textContainerInset.top + self.layer.borderWidth;
+        CGFloat width = CGRectGetWidth(self.bounds) - x - textContainerInset.right - 2*self.layer.borderWidth;
+        CGFloat height = [self.ex_placeholderLabel sizeThatFits:CGSizeMake(width, 0)].height;
+        self.ex_placeholderLabel.frame = CGRectMake(x, y, width, height);
+    }
+    [self swizzled_layoutSubviews];
+}
+- (void)swizzled_setText:(NSString *)text{
+    [self swizzled_setText:text];
+    if (self.ty_placeholder) {
+        [self updateex_placeholder];
     }
 }
-
-- (UILabel *)placeholderLabel{
-    return objc_getAssociatedObject(self, kPlaceholderLabelKey);
+#pragma mark - associated
+-(NSString *)ty_placeholder{
+    return objc_getAssociatedObject(self, &kPlaceholderKey);
+}
+-(void)setTy_placeholder:(NSString *)ex_placeholder{
+    objc_setAssociatedObject(self, &kPlaceholderKey, ex_placeholder, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self updateex_placeholder];
+}
+-(UIColor *)ty_placeholderColor{
+    return self.ex_placeholderLabel.textColor;
+}
+-(void)setTy_placeholderColor:(UIColor *)ex_placeholderColor{
+    self.ex_placeholderLabel.textColor = ex_placeholderColor;
 }
 
-- (void)setPlaceholderLabel:(UILabel *)placeholderLabel{
-    objc_setAssociatedObject(self, kPlaceholderLabelKey, placeholderLabel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+#pragma mark - update
+- (void)updateex_placeholder{
+    if (self.text.length) {
+        [self.ex_placeholderLabel removeFromSuperview];
+        return;
+    }
+    self.ex_placeholderLabel.font = self.font?self.font:self.cacutDefaultFont;
+    self.ex_placeholderLabel.textAlignment = self.textAlignment;
+    self.ex_placeholderLabel.text = self.ty_placeholder;
+    [self insertSubview:self.ex_placeholderLabel atIndex:0];
+}
+#pragma mark - lazzing
+-(UILabel *)ex_placeholderLabel{
+    UILabel *ex_placeholderLab = objc_getAssociatedObject(self, @selector(ex_placeholderLabel));
+    if (!ex_placeholderLab) {
+        ex_placeholderLab = [[UILabel alloc] init];
+        ex_placeholderLab.numberOfLines = 0;
+        ex_placeholderLab.textColor = [UIColor lightGrayColor];
+        objc_setAssociatedObject(self, @selector(ex_placeholderLabel), ex_placeholderLab, OBJC_ASSOCIATION_RETAIN);
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateex_placeholder) name:UITextViewTextDidChangeNotification object:self];
+    }
+    return ex_placeholderLab;
+}
+- (UIFont *)cacutDefaultFont{
+    static UIFont *font = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        UITextView *textview = [[UITextView alloc] init];
+        textview.text = @" ";
+        font = textview.font;
+    });
+    return font;
 }
 
-- (NSString *)placeholder{
-    return objc_getAssociatedObject(self, kPlaceholderKey);
-}
-
-- (void)ty_setPlaceholderWithText:(NSString *)placeholder Color:(UIColor *)color{
-    objc_setAssociatedObject(self, kPlaceholderKey, placeholder, OBJC_ASSOCIATION_COPY_NONATOMIC);
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = placeholder;
-    label.textColor = color;
-    label.numberOfLines = 0;
-    [label sizeToFit];
-    [self addSubview:label];
-    
-    self.placeholderLabel = label;
-    
-    self.delegate = self;
-}
-
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    //5  7.75是实验后得出的完美位置，如有需求可以修改
-    UIEdgeInsets insets = self.textContainerInset;
-    
-    self.placeholderLabel.ty_x = insets.left + 5;
-    self.placeholderLabel.ty_y = insets.top - 2;
-    
-    [self.placeholderLabel sizeToFit];
-}
-
-- (void)textViewDidChange:(UITextView *)textView{
-    self.placeholderLabel.hidden = !(self.text.length == 0);
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
