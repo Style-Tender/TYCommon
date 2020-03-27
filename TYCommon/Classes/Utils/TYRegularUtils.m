@@ -26,6 +26,18 @@
     return output;
 }
 
+///MD5加密
++(NSString *)ty_md5:(NSString *)str{
+    const char *cStr = [str UTF8String];
+    unsigned char digst[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(cStr, (CC_LONG)strlen(cStr), digst);
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [output appendFormat:@"%02x",digst[i]];
+    }
+    return output;
+}
+
 ///判断是否为手机号
 +(BOOL)ty_isPhoneNumer:(NSString *)phone{
     /*

@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///SHA1加密
 +(NSString *)ty_sha1:(NSString *)value;
 
+///MD5加密
++(NSString *)ty_md5:(NSString *)str;
+
 ///判断是否为手机号
 +(BOOL)ty_isPhoneNumer:(NSString *)phone;
 
