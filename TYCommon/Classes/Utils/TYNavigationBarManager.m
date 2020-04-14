@@ -220,6 +220,9 @@ static char kTYNavigationBarHiddenKey;
     if([TYNavigationBarManager classPresfix] != nil && ![NSStringFromClass([self class]) hasPrefix:[TYNavigationBarManager classPresfix]]){
         return;
     }
+    //设置状态栏Style
+    [self updateStatusBarStyle];
+    
     if(self.navigationController != nil){
         
         self.navigationController.navigationBar.translucent = YES;
@@ -236,9 +239,6 @@ static char kTYNavigationBarHiddenKey;
             }else{
                 [self updateNavigationBarBackgroundColor:[self navigationBarBackgroundColor]];
             }
-            
-            //设置状态栏Style
-            [self updateStatusBarStyle];
             //设置导航栏的Tint颜色
             self.navigationController.navigationBar.tintColor = [self navigationBarTintColor];
             //设置导航栏标题的字体颜色
