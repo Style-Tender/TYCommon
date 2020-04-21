@@ -61,5 +61,6 @@
 #import "NSString+TYString.h"
 #import "UIButton+TYButton.h"
 #import "UILabel+TYLabel.h"
+#import "UIImageView+TYImageView.h"
 
 #import "TYStorageUtils.h"
