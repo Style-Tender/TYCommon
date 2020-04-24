@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(NSArray<NSString *> *)ty_componentsSeparatedByString:(NSString *)str;
 
+- (NSString *)ty_covertToPinyin;
+
 @end
 
 @interface NSString (Code)

@@ -34,6 +34,13 @@
     return b;
 }
 
+- (NSString *)ty_covertToPinyin {
+    NSMutableString *mutableString = [NSMutableString stringWithString:self];
+    CFStringTransform((CFMutableStringRef)mutableString, NULL, kCFStringTransformToLatin, false);
+    mutableString = (NSMutableString *)[mutableString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+    return [mutableString stringByReplacingOccurrencesOfString:@"'" withString:@""];
+}
+
 @end
 
 @implementation NSString (Code)
