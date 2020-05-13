@@ -190,6 +190,7 @@ static AFHTTPSessionManager *_manager;
         _manager = [AFHTTPSessionManager manager];
         _manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _manager.requestSerializer.timeoutInterval = 15;
+        _manager.requestSerializer.HTTPMethodsEncodingParametersInURI = [NSSet setWithObjects:@"GET", @"HEAD", nil];
         _manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", @"null",nil];
     });
     return _manager;

@@ -189,6 +189,7 @@ static AFHTTPSessionManager *_manager;
     dispatch_once(&onceToken, ^{
         _manager = [AFHTTPSessionManager manager];
         _manager.requestSerializer.timeoutInterval = 15;
+        _manager.requestSerializer.HTTPMethodsEncodingParametersInURI = [NSSet setWithObjects:@"GET", @"HEAD", nil];
         _manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", @"null",nil];
     });
     return _manager;
