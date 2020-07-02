@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///判断是否为手机号
 +(BOOL)ty_isPhoneNumer:(NSString *)phone;
 
+///判断是否为邮箱
++(BOOL)ty_isEmail:(NSString *)email;
+
 ///限制手机号长度
 +(void)limitPhone:(UITextField *)field;
 

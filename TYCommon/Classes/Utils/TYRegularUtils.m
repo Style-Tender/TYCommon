@@ -53,6 +53,14 @@
     return isValid;
 }
 
+///判断是否为邮箱
++(BOOL)ty_isEmail:(NSString *)email{
+    NSString *regex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isValid = [predicate evaluateWithObject:email];
+    
+    return isValid;
+}
 ///限制手机号长度
 +(void)limitPhone:(UITextField *)field{
     NSString *value = field.text;
