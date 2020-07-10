@@ -26,13 +26,13 @@
                      failure:(void(^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) fail
                     complete:(void(^)(BOOL isSuccess))complete{
     
-    TYLog(@"GET------>>>>");
+    TYLog(@"RAW GET------>>>>");
     TYLog(@"URL:%@",baseUrl);
     TYLog(@"PARAMS:%@",params);
     TYLog(@"HEADER:%@",header);
     
     return [[self shareManager] GET:baseUrl parameters:params headers:header progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        TYLog(@"GET HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
+        TYLog(@"RAW GET HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@ \n 返回:",task.response.URL);
         TYLog(@"DATA:%@",responseObject);
         
@@ -41,7 +41,7 @@
         if(complete)
             complete(YES);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        TYLog(@"GET HTTP ERROR<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
+        TYLog(@"RAW GET HTTP ERROR<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@",task.response.URL);
         TYLog(@"ERROR:%ld,%@",(long)error.code,error.localizedDescription);
         
@@ -59,13 +59,13 @@
                       success:(void(^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) success
                       failure:(void(^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) fail
                      complete:(void(^)(BOOL isSuccess))complete{
-    TYLog(@"POST------>>>>");
+    TYLog(@"RAW POST------>>>>");
     TYLog(@"URL:%@",baseUrl);
     TYLog(@"PARAMS:%@",params);
     TYLog(@"HEADER:%@",header);
     
     return [[self shareManager] POST:baseUrl parameters:params headers:header progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        TYLog(@"POST HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
+        TYLog(@"RAW POST HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@ \n 返回:",task.response.URL);
         TYLog(@"DATA:%@",responseObject);
         
@@ -74,7 +74,7 @@
         if(complete)
             complete(YES);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        TYLog(@"POST HTTP ERROR<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
+        TYLog(@"RAW POST HTTP ERROR<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@",task.response.URL);
         TYLog(@"ERROR:%ld,%@",(long)error.code,error.localizedDescription);
         
@@ -92,13 +92,13 @@
                       success:(void(^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) success
                       failure:(void(^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) fail
                      complete:(void(^)(BOOL isSuccess))complete{
-    TYLog(@"PUT------>>>>");
+    TYLog(@"RAW PUT------>>>>");
     TYLog(@"URL:%@",baseUrl);
     TYLog(@"PARAMS:%@",params);
     TYLog(@"HEADER:%@",header);
     
     return [[self shareManager] PUT:baseUrl parameters:params headers:header success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        TYLog(@"PUT HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
+        TYLog(@"RAW PUT HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@ \n 返回:",task.response.URL);
         TYLog(@"DATA:%@",responseObject);
         
@@ -107,7 +107,7 @@
         if(complete)
             complete(YES);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        TYLog(@"PUT HTTP ERROR<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
+        TYLog(@"RAW PUT HTTP ERROR<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@",task.response.URL);
         TYLog(@"ERROR:%ld,%@",(long)error.code,error.localizedDescription);
         
@@ -122,13 +122,13 @@
 +(NSURLSessionDataTask *)DELETE:(NSString *)baseUrl parameters:(nullable NSDictionary *)params header:(nullable NSDictionary <NSString *,NSString *> *)headers success:(void(^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) success
                         failure:(void(^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) fail
                        complete:(void(^)(BOOL isSuccess))complete{
-    TYLog(@"DELETE------>>>>");
+    TYLog(@"RAW DELETE------>>>>");
     TYLog(@"URL:%@",baseUrl);
     TYLog(@"PARAMS:%@",params);
     TYLog(@"HEADER:%@",headers);
     
     return [[self shareManager] DELETE:baseUrl parameters:params headers:headers success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        TYLog(@"DELETE HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
+        TYLog(@"RAW DELETE HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@ \n 返回:",task.response.URL);
         TYLog(@"DATA:%@",responseObject);
         if(success)
@@ -136,7 +136,7 @@
         if(complete)
             complete(YES);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        TYLog(@"DELETE HTTP ERROR<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
+        TYLog(@"RAW DELETE HTTP ERROR<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@",task.response.URL);
         TYLog(@"ERROR:%ld,%@",(long)error.code,error.localizedDescription);
         
