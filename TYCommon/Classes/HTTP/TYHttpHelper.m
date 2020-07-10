@@ -18,14 +18,6 @@
 
 @implementation TYHttpHelper
 
-#pragma mark - 设置请求头
-+(void)setHeaderInfo:(NSDictionary *)header{
-    [[self shareManager].requestSerializer clearAuthorizationHeader];
-    for (NSString *key in header.allKeys) {
-        [[self shareManager].requestSerializer setValue:header[key] forHTTPHeaderField:key];
-    }
-}
-
 #pragma mark - GET请求
 +(NSURLSessionDataTask *)GET:(NSString *)baseUrl
                   parameters:(NSDictionary *)params
@@ -39,9 +31,7 @@
     TYLog(@"PARAMS:%@",params);
     TYLog(@"HEADER:%@",header);
     
-    [self setHeaderInfo:header];
-    
-    return [[self shareManager] GET:baseUrl parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    return [[self shareManager] GET:baseUrl parameters:params headers:header progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         TYLog(@"GET HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@ \n 返回:",task.response.URL);
         TYLog(@"DATA:%@",responseObject);
@@ -74,9 +64,7 @@
     TYLog(@"PARAMS:%@",params);
     TYLog(@"HEADER:%@",header);
     
-    [self setHeaderInfo:header];
-    
-    return [[self shareManager] POST:baseUrl parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    return [[self shareManager] POST:baseUrl parameters:params headers:header progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         TYLog(@"POST HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@ \n 返回:",task.response.URL);
         TYLog(@"DATA:%@",responseObject);
@@ -109,9 +97,7 @@
     TYLog(@"PARAMS:%@",params);
     TYLog(@"HEADER:%@",header);
     
-    [self setHeaderInfo:header];
-    
-    return [[self shareManager] PUT:baseUrl parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    return [[self shareManager] PUT:baseUrl parameters:params headers:header success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         TYLog(@"PUT HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@ \n 返回:",task.response.URL);
         TYLog(@"DATA:%@",responseObject);
@@ -141,9 +127,7 @@
     TYLog(@"PARAMS:%@",params);
     TYLog(@"HEADER:%@",headers);
     
-    [self setHeaderInfo:headers];
-    
-    return [[self shareManager] DELETE:baseUrl parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    return [[self shareManager] DELETE:baseUrl parameters:params headers:headers success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         TYLog(@"DELETE HTTP OK<<<<------%ld",((NSHTTPURLResponse *)task.response).statusCode);
         TYLog(@"URL:%@ \n 返回:",task.response.URL);
         TYLog(@"DATA:%@",responseObject);

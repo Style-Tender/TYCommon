@@ -56,12 +56,7 @@
         for (int i = 0; i < self.requests.count; i++) {
             TYUploadItem *item = self.requests[i];
             
-            [manager.requestSerializer clearAuthorizationHeader];
-            for (NSString *key in item.headers.allKeys) {
-                [manager.requestSerializer setValue:item.headers[key] forHTTPHeaderField:key];
-            }
-            
-            [manager POST:url parameters:item.params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+            [manager POST:url parameters:item.params headers:item.headers constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
                 [formData appendPartWithFileData:item.fileData name:item.name fileName:item.fileName mimeType:item.mimeType];
             } progress:^(NSProgress * _Nonnull uploadProgress) {
                 TYLog(@"正在上传-----%d,当前上传进度 %lld,总长度 %lld,占比%f,描述%@",i,uploadProgress.completedUnitCount,uploadProgress.totalUnitCount,uploadProgress.fractionCompleted,uploadProgress.localizedDescription);
