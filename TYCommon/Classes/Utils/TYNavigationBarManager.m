@@ -17,7 +17,6 @@
 
 static char kTYClassPresfixKey;
 static char kTYDefaultBarBackgroundColorKey;
-static char kTYDefaultStatusBarStyleKey;
 static char kTYDefaultNavigationBarTintColorKey;
 static char kTYDefaultNavigationBarTitleTextColorKey;
 static char kTYDefaultNavigationBarBackgroundAlphaKey;
@@ -39,15 +38,6 @@ static char kTYDefaultNavigationBarShadowImageHiddenKey;
 + (UIColor *)defaultBarBackgroundColor{
     UIColor *color = objc_getAssociatedObject(self, &kTYDefaultBarBackgroundColorKey);
     return color? color : [UIColor whiteColor];
-}
-
-#pragma mark - 默认状态栏Style
-+ (void)ty_setDefaultStatusBarStyle:(UIStatusBarStyle) style{
-    objc_setAssociatedObject(self, &kTYDefaultStatusBarStyleKey, @(style), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-+ (UIStatusBarStyle)defaultStatusBarStyle{
-    id style = objc_getAssociatedObject(self, &kTYDefaultStatusBarStyleKey);
-    return style ? [style integerValue] : UIStatusBarStyleDefault;
 }
 
 #pragma mark - 默认导航栏的Tint颜色
@@ -99,7 +89,6 @@ static char kTYDefaultNavigationBarShadowImageHiddenKey;
     [self addChildViewController:viewController];
     
     [viewController ty_setNavigationBarTitleTextColor:[self navigationBarBackgroundColor]];
-    [viewController ty_setStatusBarStyle:[self statusBarStyle]];
     [viewController ty_setNavigationBarTintColor:[self navigationBarTintColor]];
     [viewController ty_setNavigationBarTitleTextColor:[self navigationBarTitleTextColor]];
     [viewController ty_setNavigationBarBackgroundAlpha:[self navigationBarBackgroundAlpha]];
@@ -108,7 +97,6 @@ static char kTYDefaultNavigationBarShadowImageHiddenKey;
 }
 
 static char kTYBarBackgroundColorKey;
-static char kTYStatusBarStyleKey;
 static char kTYNavigationBarTintColorKey;
 static char kTYNavigationBarTitleTextColorKey;
 static char kTYNavigationBarBackgroundAlphaKey;
@@ -135,16 +123,6 @@ static char kTYNavigationBarHiddenKey;
 - (UIColor *)navigationBarBackgroundColor{
     UIColor *color = objc_getAssociatedObject(self, &kTYBarBackgroundColorKey);
     return color? color : [TYNavigationBarManager defaultBarBackgroundColor];
-}
-
-#pragma mark - 设置状态栏Style
-- (void)ty_setStatusBarStyle:(UIStatusBarStyle) style{
-    objc_setAssociatedObject(self, &kTYStatusBarStyleKey, @(style), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    [self updateStatusBarStyle];
-}
-- (UIStatusBarStyle)statusBarStyle{
-    id style = objc_getAssociatedObject(self, &kTYStatusBarStyleKey);
-    return style ? [style integerValue] : [TYNavigationBarManager defaultStatusBarStyle];
 }
 
 #pragma mark - 设置导航栏的Tint颜色
@@ -220,8 +198,6 @@ static char kTYNavigationBarHiddenKey;
     if([TYNavigationBarManager classPresfix] != nil && ![NSStringFromClass([self class]) hasPrefix:[TYNavigationBarManager classPresfix]]){
         return;
     }
-    //设置状态栏Style
-    [self updateStatusBarStyle];
     
     if(self.navigationController != nil){
         
@@ -262,14 +238,6 @@ static char kTYNavigationBarHiddenKey;
 #pragma mark - 设置导航栏背景颜色
 - (void)updateNavigationBarBackgroundColor:(UIColor *)color{
     [self.navigationController.navigationBar setBackgroundImage:[self ty_getImageWithColor:color] forBarMetrics:UIBarMetricsDefault];
-}
-
-#pragma mark - 修改状态栏
-- (void)updateStatusBarStyle{
-    [self setNeedsStatusBarAppearanceUpdate];
-}
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return [self statusBarStyle];
 }
 
 #pragma mark - 修改导航栏Tint颜色
@@ -343,25 +311,6 @@ static char kTYNavigationBarHiddenKey;
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return img;
-}
-
-@end
-
-//==========================================================================
-#pragma mark - UIViewController + TYNavigationBar
-//==========================================================================
-@implementation UINavigationController (TYNavigationBar)
-
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return [self.topViewController preferredStatusBarStyle];
-}
-
-- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation{
-    return UIStatusBarAnimationNone;
-}
-
-- (BOOL)prefersStatusBarHidden{
-    return NO;
 }
 
 @end

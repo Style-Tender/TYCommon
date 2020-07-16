@@ -18,9 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///默认导航栏背景颜色
 + (void)ty_setDefaultNavigationBarBackgroundColor:(UIColor *)color;
 
-///默认状态栏Style
-+ (void)ty_setDefaultStatusBarStyle:(UIStatusBarStyle) style;
-
 ///默认导航栏的Tint颜色
 + (void)ty_setDefaultNavigationBarTintColor:(UIColor *)color;
 
@@ -44,9 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///设置导航栏背景颜色
 - (void)ty_setNavigationBarBackgroundColor:(UIColor *)color;
 
-///设置状态栏Style
-- (void)ty_setStatusBarStyle:(UIStatusBarStyle) style;
-
 ///设置导航栏的Tint颜色
 - (void)ty_setNavigationBarTintColor:(UIColor *)color;
 
@@ -62,12 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///设置导航栏隐藏
 - (void)ty_setNavigationBarHidden:(BOOL)hidden;
 
-///添加子控制器-使用父控制器的导航栏属性
+///添加自控制器-使用父控制器的导航栏属性
 - (void)ty_addChildViewController:(UIViewController *)viewController;
-
-@end
-
-@interface UINavigationController (TYNavigationBar)
 
 @end
 
