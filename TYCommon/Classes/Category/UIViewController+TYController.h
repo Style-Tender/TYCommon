@@ -22,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)ty_registerNotificationName:(NSString *)name andSEL:(SEL)action;
 
 /**
+ 反注册通知
+ */
+-(void)ty_unregisterNotification;
+
+/**
  pop自己
  */
 - (void)ty_popSelf;

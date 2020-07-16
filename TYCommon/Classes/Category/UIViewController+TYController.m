@@ -20,6 +20,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:action name:name object:nil];
 }
 
+/**
+ 反注册通知
+ */
+-(void)ty_unregisterNotification{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - 模态出半透明的控制器
 -(void)ty_presentTransparentViewController:(nonnull UIViewController *)viewController animated:(BOOL)animate completion:(nullable void(^)(void))comlete{
     //设置ViewController的背景颜色及透明度
