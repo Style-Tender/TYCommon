@@ -30,12 +30,13 @@
 
 -(void)initView{
     self.view.backgroundColor = UIColor.grayColor;
+    [self ty_setNavigationBarOpaqueTranslucent:NO];
     [self ty_setNavigationBarBackgroundAlpha:0];
     [self ty_setNavigationBarBackgroundColor:UIColor.whiteColor];
     
     UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:self.view.bounds];
     scrollView.backgroundColor = UIColor.redColor;
-//    scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
     

@@ -103,6 +103,7 @@ static char kTYNavigationBarBackgroundAlphaKey;
 static char kTYNavigationBarShadowImageHiddenKey;
 static char kTYNavigationBarBackgroundImageKey;
 static char kTYNavigationBarHiddenKey;
+static char kTYNavigationBarOpaqueTranslucentKey;
 
 #pragma mark - 背景图片
 -(void)ty_setNavigationBarBackgroundImage:(UIImage *)image{
@@ -175,6 +176,18 @@ static char kTYNavigationBarHiddenKey;
     return hidden ? [hidden boolValue] : NO;
 }
 
+#pragma mark - 设置导航栏自带模糊效果
+- (void)ty_setNavigationBarOpaqueTranslucent:(BOOL)translucent{
+    objc_setAssociatedObject(self, &kTYNavigationBarOpaqueTranslucentKey, @(translucent), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.navigationController.navigationBar.translucent = translucent;
+    self.extendedLayoutIncludesOpaqueBars = !translucent;
+}
+
+- (BOOL)navigationBarOpaqueTranslucent{
+    id translucent = objc_getAssociatedObject(self, &kTYNavigationBarOpaqueTranslucentKey);
+    return translucent ? [translucent boolValue] : YES;
+}
+
 #pragma mark - load时交换生命周期的方法
 +(void)load{
     static dispatch_once_t onceToken;
@@ -201,8 +214,8 @@ static char kTYNavigationBarHiddenKey;
     
     if(self.navigationController != nil){
         
-        self.navigationController.navigationBar.translucent = NO;
-        self.extendedLayoutIncludesOpaqueBars = YES;
+        self.navigationController.navigationBar.translucent = [self navigationBarOpaqueTranslucent];
+        self.extendedLayoutIncludesOpaqueBars = !self.navigationController.navigationBar.translucent;
         
         //导航栏是否隐藏
         [self.navigationController setNavigationBarHidden:[self navigationBarHidden] animated:animated];

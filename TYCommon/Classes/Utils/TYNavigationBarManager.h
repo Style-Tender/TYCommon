@@ -56,6 +56,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///设置导航栏隐藏
 - (void)ty_setNavigationBarHidden:(BOOL)hidden;
 
+///设置导航栏自带模糊效果
+- (void)ty_setNavigationBarOpaqueTranslucent:(BOOL)translucent;
+
 ///添加自控制器-使用父控制器的导航栏属性
 - (void)ty_addChildViewController:(UIViewController *)viewController;
 
