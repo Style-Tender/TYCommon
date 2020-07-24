@@ -46,7 +46,7 @@
      电信：133、153、180、189、（1349卫通）
      总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9
      */
-    NSString *regex = @"^[1][3578]\\d{9}$";
+    NSString *regex = @"^[1][35678]\\d{9}$";
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     BOOL isValid = [predicate evaluateWithObject:phone];
     

@@ -9,6 +9,8 @@
 #import "TYViewController.h"
 #import <TYNavigationBarManager.h>
 
+#import <TYPhoneUtils.h>
+
 @interface TYViewController ()<UIScrollViewDelegate>
 
 @end
@@ -18,6 +20,8 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     [self initView];
+    
+    TYLog(@"机型： %@",TYPhoneUtils.ty_getPhoneModel);
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -56,7 +60,7 @@
     CGFloat offset = scrollView.contentOffset.y;
     CGFloat alpha = MIN(offset / 300, 1);
     
-    TYLog(@"当前透明度  %f",alpha);
+    TYLog(@"当前透明度  %f   %f",alpha ,  offset);
     
     [self ty_setNavigationBarBackgroundAlpha:alpha];
 }
