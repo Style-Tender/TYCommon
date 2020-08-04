@@ -179,8 +179,7 @@ static char kTYNavigationBarOpaqueTranslucentKey;
 #pragma mark - 设置导航栏自带模糊效果
 - (void)ty_setNavigationBarOpaqueTranslucent:(BOOL)translucent{
     objc_setAssociatedObject(self, &kTYNavigationBarOpaqueTranslucentKey, @(translucent), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    self.navigationController.navigationBar.translucent = translucent;
-    self.extendedLayoutIncludesOpaqueBars = !translucent;
+    [self updateNavigationBarOpaqueTranslucent:translucent];
 }
 
 - (BOOL)navigationBarOpaqueTranslucent{
@@ -213,10 +212,9 @@ static char kTYNavigationBarOpaqueTranslucentKey;
     }
     
     if(self.navigationController != nil){
-        
-        self.navigationController.navigationBar.translucent = [self navigationBarOpaqueTranslucent];
-        self.extendedLayoutIncludesOpaqueBars = !self.navigationController.navigationBar.translucent;
-        
+//        BOOL translucent = [self navigationBarOpaqueTranslucent];
+//        [self updateNavigationBarOpaqueTranslucent:translucent];
+    
         //导航栏是否隐藏
         [self.navigationController setNavigationBarHidden:[self navigationBarHidden] animated:animated];
         
@@ -241,6 +239,19 @@ static char kTYNavigationBarOpaqueTranslucentKey;
     }
 }
 
+#pragma mark - 更新导航栏自带模糊效果
+-(void)updateNavigationBarOpaqueTranslucent:(BOOL)translucent{
+//    self.navigationController.navigationBar.translucent = [self navigationBarOpaqueTranslucent];
+//    self.extendedLayoutIncludesOpaqueBars = !self.navigationController.navigationBar.translucent;
+//    if(!translucent){
+//        for (UIView *view in self.navigationController.navigationBar.subviews) {
+//            if([view isKindOfClass:NSClassFromString(@"_UIBarBackground")]){
+//                view.backgroundColor = UIColor.redColor;
+//            }
+//        }
+//        
+//    }
+}
 
 #pragma mark - 设置背景图片
 -(void)updateNavigationBarBackgroundImage:(UIImage *)image{
@@ -250,8 +261,11 @@ static char kTYNavigationBarOpaqueTranslucentKey;
 
 #pragma mark - 设置导航栏背景颜色
 - (void)updateNavigationBarBackgroundColor:(UIColor *)color{
-    self.navigationController.navigationBar.barTintColor = color;
-//    [self.navigationController.navigationBar setBackgroundImage:[self ty_getImageWithColor:color] forBarMetrics:UIBarMetricsDefault];
+//    self.navigationController.navigationBar.barTintColor = color;
+    
+    CGFloat alpha = [self navigationBarBackgroundAlpha];
+    UIImage *image = [self ty_getImageWithColor:color andAlpha:alpha];
+    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark - 修改导航栏Tint颜色
@@ -273,8 +287,11 @@ static char kTYNavigationBarOpaqueTranslucentKey;
 
 #pragma mark - 修改导航栏背景透明度
 - (void)updateNavigationBarBackgroundAlpha:(CGFloat)alpha{
-    self.navigationController.navigationBar.subviews.firstObject.alpha = alpha;
-//    [self.navigationController.navigationBar setBackgroundImage:[self ty_getImageWithColor:[self navigationBarBackgroundColor] andAlpha:alpha] forBarMetrics:UIBarMetricsDefault];
+//    self.navigationController.navigationBar.barTintColor = color;
+    
+    UIColor *color = [[self navigationBarBackgroundColor] colorWithAlphaComponent:alpha];
+    UIImage *image = [self ty_getImageWithColor:color andAlpha:alpha];
+    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark - 修改分割线显示

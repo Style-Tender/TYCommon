@@ -34,7 +34,6 @@
 
 -(void)initView{
     self.view.backgroundColor = UIColor.grayColor;
-    [self ty_setNavigationBarOpaqueTranslucent:NO];
     [self ty_setNavigationBarBackgroundAlpha:0];
     [self ty_setNavigationBarBackgroundColor:UIColor.whiteColor];
     
@@ -59,9 +58,9 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat offset = scrollView.contentOffset.y;
     CGFloat alpha = MIN(offset / 300, 1);
-    
+
     TYLog(@"当前透明度  %f   %f",alpha ,  offset);
-    
+
     [self ty_setNavigationBarBackgroundAlpha:alpha];
 }
 

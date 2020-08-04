@@ -17,7 +17,7 @@
     
     //初始化
     [TYNavigationBarManager ty_setDefaultNavigationBarShadowImageHidden:YES];
-    
+//    [TYNavigationBarManager ty_setClassPrefix:@"TY"];
     
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[TYViewController new]];
     _window.rootViewController = nav;
