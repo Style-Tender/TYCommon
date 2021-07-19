@@ -253,7 +253,7 @@
 				ORGANIZATIONNAME = "785072254@qq.com";
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
-						DevelopmentTeam = 8Q564485KU;
+						DevelopmentTeam = 7PK6VMRQD8;
 					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
@@ -503,7 +503,7 @@
 			baseConfigurationReference = 25D723941AF0E3F829A2C976 /* Pods-TYCommon_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8Q564485KU;
+				DEVELOPMENT_TEAM = 7PK6VMRQD8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TYCommon/TYCommon-Prefix.pch";
 				INFOPLIST_FILE = "TYCommon/TYCommon-Info.plist";
@@ -522,7 +522,7 @@
 			baseConfigurationReference = 413B3E20EC1EB8F967FD485C /* Pods-TYCommon_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8Q564485KU;
+				DEVELOPMENT_TEAM = 7PK6VMRQD8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TYCommon/TYCommon-Prefix.pch";
 				INFOPLIST_FILE = "TYCommon/TYCommon-Info.plist";
