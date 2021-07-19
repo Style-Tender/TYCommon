@@ -23,14 +23,7 @@
     uname(&systemInfo);
     NSString *deviceModel = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
     
-    NSString *path = [[NSBundle bundleForClass:[TYPhoneUtils class]] pathForResource:@"DeviceModel" ofType:@"plist"];
-    NSDictionary *devices = [NSDictionary dictionaryWithContentsOfFile:path];
-    
-    if([devices.allKeys containsObject:deviceModel]){
-        return devices[deviceModel];
-    }else{
-        return deviceModel;
-    }
+    return deviceModel;
 }
 
 @end

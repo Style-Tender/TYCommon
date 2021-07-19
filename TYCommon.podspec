@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TYCommon'
-  s.version          = '1.1.7'
+  s.version          = '1.1.8'
   s.summary          = '自用的一个开发库，包含常见的使用方法'
 
 # This description is used to generate tags and improve search results.
@@ -32,7 +32,7 @@ TODO: Add long description of the pod here.
 
   s.source_files = 'TYCommon/Classes/**/*'
   
-  s.resources = 'TYCommon/Assets/DeviceModel.plist'
+#  s.resources = 'TYCommon/Assets/DeviceModel.plist'
   
 #  s.resource_bundles = {
 #    'TYCommon' => ['TYCommon/Assets/*.png']
